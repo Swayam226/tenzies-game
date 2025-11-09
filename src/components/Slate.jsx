@@ -14,7 +14,15 @@ export default function Slate() {
   }
 
   function rollDice() {
-    setDice(generateallnewDice);
+    setDice((prev) => {
+      return prev.map((die) => {
+        if (die.isHeld == true) {
+          return die;
+        } else {
+          return { ...die, value: Math.ceil(Math.random() * 6) };
+        }
+      });
+    });
   }
 
   function hold(id) {
