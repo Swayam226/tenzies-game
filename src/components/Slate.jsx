@@ -3,9 +3,9 @@ import Die from "./Die";
 import { nanoid } from "nanoid";
 
 export default function Slate() {
-  const [dice, setDice] = useState(generatediceNumber());
+  const [dice, setDice] = useState(generateallnewDice());
 
-  function generatediceNumber() {
+  function generateallnewDice() {
     return new Array(10).fill(0).map(() => ({
       value: Math.ceil(Math.random() * 6),
       isHeld: false,
@@ -14,11 +14,30 @@ export default function Slate() {
   }
 
   function rollDice() {
-    setDice(generatediceNumber);
+    setDice(generateallnewDice);
+  }
+
+  function hold(id) {
+    setDice((prev) => {
+      return prev.map((die) => {
+        return die.id === id
+          ? {
+              ...die,
+              isHeld: !die.isHeld,
+            }
+          : die;
+      });
+    });
+    console.log(id);
   }
 
   const dieElements = dice.map((DieObj) => (
-    <Die key={DieObj.id} value={DieObj.value} held={DieObj.isHeld} />
+    <Die
+      key={DieObj.id}
+      value={DieObj.value}
+      held={DieObj.isHeld}
+      hold={() => hold(DieObj.id)} // closed fn used closures
+    />
   ));
 
   return (
