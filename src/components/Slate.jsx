@@ -13,6 +13,13 @@ export default function Slate() {
     }));
   }
 
+  // adding game winning condition
+  // using array method called every
+
+  const gameWon =
+    dice.every((die) => die.isHeld) &&
+    dice.every((die) => die.value === dice[0].value);
+
   function rollDice() {
     setDice((prev) => {
       return prev.map((die) => {
@@ -63,7 +70,7 @@ export default function Slate() {
           onClick={rollDice}
           className="rounded-xl w-35 h-15 hover:shadow-2xl hover:scale-105 transition transform bg-blue-500 text-xl font-semibold text-white"
         >
-          Roll Dice
+          {gameWon ? "New Game" : "Roll Dice"}
         </button>
       </section>
     </div>
