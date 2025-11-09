@@ -22,15 +22,19 @@ export default function Slate() {
     dice.every((die) => die.value === dice[0].value);
 
   function rollDice() {
-    setDice((prev) => {
-      return prev.map((die) => {
-        if (die.isHeld == true) {
-          return die;
-        } else {
-          return { ...die, value: Math.ceil(Math.random() * 6) };
-        }
+    if (!gameWon) {
+      setDice((prev) => {
+        return prev.map((die) => {
+          if (die.isHeld == true) {
+            return die;
+          } else {
+            return { ...die, value: Math.ceil(Math.random() * 6) };
+          }
+        });
       });
-    });
+    } else {
+      setDice(generateallnewDice);
+    }
   }
 
   function hold(id) {
@@ -59,6 +63,11 @@ export default function Slate() {
   return (
     <div className="flex flex-col items-center justify-center rounded-4xl w-[70%]  h-[80%] bg-white">
       {gameWon && <Confetti tweenDuration={50} />}
+      <div aria-live="polite" className="sr-only">
+        {gameWon && (
+          <p>Congrats! You won, press New Game to start a new game</p>
+        )}
+      </div>
       <p className="text-gray-500 w-95 text-center pt-7 text-md">
         <span className="font-bold">How to Play:</span> Roll until all dice are
         the same. Click each die to freeze it at its current value between
