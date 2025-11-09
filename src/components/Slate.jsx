@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
+import Confetti from "react-confetti";
 
 export default function Slate() {
   const [dice, setDice] = useState(generateallnewDice());
@@ -57,6 +58,7 @@ export default function Slate() {
 
   return (
     <div className="flex flex-col items-center justify-center rounded-4xl w-[70%]  h-[80%] bg-white">
+      {gameWon && <Confetti tweenDuration={50} />}
       <p className="text-gray-500 w-95 text-center pt-7 text-md">
         <span className="font-bold">How to Play:</span> Roll until all dice are
         the same. Click each die to freeze it at its current value between
