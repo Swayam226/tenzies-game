@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 
 export default function Slate() {
   const [dice, setDice] = useState(generateallnewDice());
+  const buttonref = useRef(null);
 
   function generateallnewDice() {
     return new Array(10).fill(0).map(() => ({
@@ -20,6 +21,12 @@ export default function Slate() {
   const gameWon =
     dice.every((die) => die.isHeld) &&
     dice.every((die) => die.value === dice[0].value);
+
+  useEffect(() => {
+    if (gameWon) {
+      buttonref.current.focus();
+    }
+  });
 
   function rollDice() {
     if (!gameWon) {
@@ -78,6 +85,7 @@ export default function Slate() {
       </section>
       <section className=" h-20 w-150 flex justify-center items-center pb-18">
         <button
+          ref={buttonref}
           onClick={rollDice}
           className="rounded-xl w-35 h-15 hover:shadow-2xl hover:scale-105 transition transform bg-blue-500 text-xl font-semibold text-white"
         >
