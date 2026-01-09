@@ -6,6 +6,7 @@ import Confetti from "react-confetti";
 export default function Slate() {
   const [dice, setDice] = useState(() => generateallnewDice()); // this fn will now generate only 1 time during 1st render
   const buttonref = useRef(null);
+  const [count, setCount] = useState(0);
 
   function generateallnewDice() {
     return new Array(10).fill(0).map(() => ({
@@ -30,6 +31,7 @@ export default function Slate() {
 
   function rollDice() {
     if (!gameWon) {
+      setCount((prev) => prev + 1);
       setDice((prev) => {
         return prev.map((die) => {
           if (die.isHeld == true) {
@@ -41,6 +43,7 @@ export default function Slate() {
       });
     } else {
       setDice(generateallnewDice);
+      setCount(0);
     }
   }
 
@@ -83,13 +86,17 @@ export default function Slate() {
       <section className="w-full h-105 grid grid-cols-5 grid-rows-2 place-items-center pl-20 pr-20 pb-12">
         {dieElements}
       </section>
-      <section className=" h-20 w-150 flex justify-center items-center pb-18">
+      <section className=" h-20 w-150 flex gap-8 justify-center items-center pb-18">
         <button
           ref={buttonref}
           onClick={rollDice}
           className="rounded-xl w-35 h-15 hover:shadow-2xl hover:scale-105 transition transform bg-blue-500 text-xl font-semibold text-white"
         >
           {gameWon ? "New Game" : "Roll Dice"}
+        </button>
+
+        <button className="rounded-xl w-35 h-15 hover:shadow-2xl hover:scale-105 transition transform bg-red-500 text-xl font-semibold text-white">
+          Count: {count}
         </button>
       </section>
     </div>
