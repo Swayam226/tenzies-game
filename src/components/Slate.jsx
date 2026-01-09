@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 
 export default function Slate() {
-  const [dice, setDice] = useState(generateallnewDice());
+  const [dice, setDice] = useState(() => generateallnewDice()); // this fn will now generate only 1 time during 1st render
   const buttonref = useRef(null);
 
   function generateallnewDice() {
@@ -26,7 +26,7 @@ export default function Slate() {
     if (gameWon) {
       buttonref.current.focus();
     }
-  });
+  }, [gameWon]);
 
   function rollDice() {
     if (!gameWon) {
